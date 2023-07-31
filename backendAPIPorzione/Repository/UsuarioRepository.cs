@@ -13,9 +13,10 @@ namespace backendAPIPorzione.Repository
             _context = context;
         }
 
-        public Task UpdateUsuario(Usuario usuario)
+        public async Task UpdateUsuario(Usuario usuario)
         {
-            throw new NotImplementedException();
+            _context.Update(usuario);
+            await _context.SaveChangesAsync();
         }
     }
 }

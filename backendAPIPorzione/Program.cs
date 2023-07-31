@@ -16,6 +16,7 @@ builder.Services.AddDbContext<PorzioneapiContext>(options =>
 //inyecto repository
 builder.Services.AddScoped<IProductoRepository, ProductoRepository>();
 builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
+builder.Services.AddScoped<IMenuRepository, MenuRepository>();
 
 //inyecto servicio mapper
 builder.Services.AddAutoMapper(typeof(MappingConfig));

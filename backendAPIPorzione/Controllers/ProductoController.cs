@@ -80,7 +80,7 @@ namespace backendAPIPorzione.Controllers
             try
             {
                 List<Producto> listaProductos = await _productoRepository.GetAll();
-                List<Producto> productosPaginados = listaProductos.Skip(page - 1).Take(pageSize).ToList();
+                List<Producto> productosPaginados = listaProductos.Skip((page - 1)* pageSize).Take(pageSize).ToList();
 
                 return Ok(productosPaginados);
             }
@@ -133,8 +133,8 @@ namespace backendAPIPorzione.Controllers
             {
                 return StatusCode(500, e.Message);
             }
-
-
         }
+
+        
     }
 }
