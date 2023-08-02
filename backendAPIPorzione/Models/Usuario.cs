@@ -13,5 +13,7 @@ public partial class Usuario
 
     public string Rol { get; set; } = null!;
 
+    public string? Clave { get; set; }
+
     public virtual ICollection<Menu> Menus { get; set; } = new List<Menu>();
 }

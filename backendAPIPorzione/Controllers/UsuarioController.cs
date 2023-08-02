@@ -1,8 +1,11 @@
 ﻿using AutoMapper;
 using backendAPIPorzione.Models;
+using backendAPIPorzione.Models.cliente_servidor;
 using backendAPIPorzione.Models.Dto;
 using backendAPIPorzione.Repository;
 using backendAPIPorzione.Repository.IRepository;
+using backendAPIPorzione.Services.IService;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,16 +17,20 @@ namespace backendAPIPorzione.Controllers
     {
         readonly IUsuarioRepository _usuarioRepository;
         readonly IMapper _mapper;
+        readonly IAutorizacionService _autorizacionService;
 
-        public UsuarioController(IUsuarioRepository usuarioRepository, IMapper mapper)
+        public UsuarioController(IUsuarioRepository usuarioRepository, IMapper mapper, IAutorizacionService autorizacionService)
         {
             _usuarioRepository = usuarioRepository;
             _mapper = mapper;
+            _autorizacionService = autorizacionService;
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         [ProducesResponseType(200)]
         [ProducesResponseType(500)]
+        [ProducesResponseType(401)]
         public async Task<IActionResult> GetUsuarios()
         {
             try
@@ -38,6 +45,10 @@ namespace backendAPIPorzione.Controllers
         }
 
         [HttpGet("{id}")]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(401)]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(500)]
         public async Task<IActionResult> GetUsuarioById(int id)
         {
             try
@@ -55,10 +66,12 @@ namespace backendAPIPorzione.Controllers
             }
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]
         [ProducesResponseType(500)]
+        [ProducesResponseType(401)]
         public async Task<IActionResult> DeleteUsuario(int id)
         {
             try
@@ -78,10 +91,12 @@ namespace backendAPIPorzione.Controllers
             }
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPut("{id}")]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
         [ProducesResponseType(500)]
+        [ProducesResponseType(401)]
         public async Task<IActionResult> UpdateUsuario(int id, [FromBody] UpdateUsuarioDto updateUsuarioDto)
         {
             try
@@ -102,6 +117,23 @@ namespace backendAPIPorzione.Controllers
                 return StatusCode(500, e.Message);
             }
         }
+
+        [HttpPost]
+        [Route("Autenticar")]
+        [ProducesResponseType(401)]
+        [ProducesResponseType(200)]
+        public async Task<IActionResult> Autenticar([FromBody] AutorizacionRequest autorizacion)
+        {
+            var resultadoAutorizacion = await _autorizacionService.DevolverToken(autorizacion);
+
+            if (resultadoAutorizacion is null)
+            {
+                return Unauthorized();
+            }
+
+            return Ok(resultadoAutorizacion);
+        }
+
 
     }
 }

@@ -2,6 +2,7 @@
 using backendAPIPorzione.Models;
 using backendAPIPorzione.Models.Dto;
 using backendAPIPorzione.Repository.IRepository;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -24,7 +25,12 @@ namespace backendAPIPorzione.Controllers
             _detalleRepository = detalleRepository;
         }
 
+        [Authorize(Roles = "Cliente")]
         [HttpPost]
+        [ProducesResponseType(401)]
+        [ProducesResponseType(500)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(201)]
         public async Task<IActionResult> CreateMenu([FromBody] MenuDto menuDto)
         {
             try
@@ -71,7 +77,13 @@ namespace backendAPIPorzione.Controllers
             }
         }
 
+
+        [Authorize(Roles = "Cliente")]
         [HttpGet("{id}")]
+        [ProducesResponseType(500)]
+        [ProducesResponseType(401)]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
         public async Task<IActionResult> GetMenuById(int id)
         {
             var modelo = await _menuRepository.GetMenu(id);

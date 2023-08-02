@@ -72,6 +72,9 @@ public partial class PorzioneapiContext : DbContext
         {
             entity.ToTable("Usuario");
 
+            entity.Property(e => e.Clave)
+                .HasMaxLength(30)
+                .IsUnicode(false);
             entity.Property(e => e.Correo)
                 .HasMaxLength(255)
                 .IsUnicode(false);

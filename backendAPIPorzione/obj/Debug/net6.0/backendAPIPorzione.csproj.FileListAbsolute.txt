@@ -87,3 +87,4 @@ C:\Users\PC\Desktop\porzioneAPI\backendAPIPorzione\obj\Debug\net6.0\backendAPIPo
 C:\Users\PC\Desktop\porzioneAPI\backendAPIPorzione\obj\Debug\net6.0\ref\backendAPIPorzione.dll
 C:\Users\PC\Desktop\porzioneAPI\backendAPIPorzione\bin\Debug\net6.0\AutoMapper.dll
 C:\Users\PC\Desktop\porzioneAPI\backendAPIPorzione\bin\Debug\net6.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
+C:\Users\PC\Desktop\porzioneAPI\backendAPIPorzione\bin\Debug\net6.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll

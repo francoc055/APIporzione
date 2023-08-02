@@ -3,6 +3,7 @@ using backendAPIPorzione.Datos;
 using backendAPIPorzione.Models;
 using backendAPIPorzione.Models.Dto;
 using backendAPIPorzione.Repository.IRepository;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
@@ -26,9 +27,11 @@ namespace backendAPIPorzione.Controllers
             _mapper = mapper;
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
+        [ProducesResponseType(401)]
         public async Task<IActionResult> PostProductos([FromBody] ProductoDto productoDto)
         {
             try
@@ -50,10 +53,13 @@ namespace backendAPIPorzione.Controllers
 
         }
 
+
+        [Authorize(Roles = "Admin")]
         [HttpGet("{id}", Name = "GetProductoById")]
         [ProducesResponseType(404)]
         [ProducesResponseType(200)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(401)]
         public async Task<IActionResult> GetProductoById(int id)
         {
             try
@@ -72,9 +78,11 @@ namespace backendAPIPorzione.Controllers
 
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(401)]
         public async Task<IActionResult> GetProductos(int page, int pageSize)
         {
             try
@@ -90,10 +98,13 @@ namespace backendAPIPorzione.Controllers
             }
         }
 
+
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(401)]
         public async Task<IActionResult> RemoveProducto(int id)
         {
             try
@@ -112,10 +123,13 @@ namespace backendAPIPorzione.Controllers
             }  
         }
 
+
+        [Authorize(Roles = "Admin")]
         [HttpPut("{id}")]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
         [ProducesResponseType(500)]
+        [ProducesResponseType(401)]
         public async Task<IActionResult> UpdateProducto(int id, [FromBody] UpdateProductoDto productoDto)
         {
             try
