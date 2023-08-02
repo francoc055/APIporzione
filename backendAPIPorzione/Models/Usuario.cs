@@ -13,7 +13,5 @@ public partial class Usuario
 
     public string Rol { get; set; } = null!;
 
-    public virtual ICollection<Detalle> Detalles { get; set; } = new List<Detalle>();
-
     public virtual ICollection<Menu> Menus { get; set; } = new List<Menu>();
 }

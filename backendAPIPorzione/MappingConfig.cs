@@ -12,6 +12,8 @@ namespace backendAPIPorzione
             CreateMap<Producto, UpdateProductoDto>().ReverseMap();
             CreateMap<Usuario, UsuarioDto>().ReverseMap();
             CreateMap<Usuario, UpdateUsuarioDto>().ReverseMap();
+            CreateMap<Menu, MenuDto>().ReverseMap();
+            CreateMap<Detalle, DetalleDto>().ReverseMap();
 
         }
     }
