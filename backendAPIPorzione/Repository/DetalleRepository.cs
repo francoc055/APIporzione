@@ -7,9 +7,9 @@ namespace backendAPIPorzione.Repository
 {
     public class DetalleRepository : Repository<Detalle>, IDetalleRepository
     {
-        readonly PorzioneapiContext _context;
+        readonly Datos.PorzioneapiContext _context;
 
-        public DetalleRepository(PorzioneapiContext context) : base (context)
+        public DetalleRepository(Datos.PorzioneapiContext context) : base (context)
         {
             _context = context;
         }

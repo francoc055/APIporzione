@@ -24,6 +24,7 @@ builder.Services.AddScoped<IProductoRepository, ProductoRepository>();
 builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
 builder.Services.AddScoped<IMenuRepository, MenuRepository>();
 builder.Services.AddScoped<IDetalleRepository, DetalleRepository>();
+builder.Services.AddScoped<IClaveHasherRepository, ClaveHasherRepository>(); 
 
 //inyecto servicio mapper
 builder.Services.AddAutoMapper(typeof(MappingConfig));

@@ -18,12 +18,14 @@ namespace backendAPIPorzione.Controllers
         readonly IUsuarioRepository _usuarioRepository;
         readonly IMapper _mapper;
         readonly IAutorizacionService _autorizacionService;
+        readonly IClaveHasherRepository _claveHasher;
 
-        public UsuarioController(IUsuarioRepository usuarioRepository, IMapper mapper, IAutorizacionService autorizacionService)
+        public UsuarioController(IUsuarioRepository usuarioRepository, IMapper mapper, IAutorizacionService autorizacionService, IClaveHasherRepository claveHasher)
         {
             _usuarioRepository = usuarioRepository;
             _mapper = mapper;
             _autorizacionService = autorizacionService;
+            _claveHasher = claveHasher;
         }
 
         [Authorize(Roles = "Admin")]
@@ -44,7 +46,8 @@ namespace backendAPIPorzione.Controllers
             }
         }
 
-        [HttpGet("{id}")]
+        [Authorize(Roles = "Admin")]
+        [HttpGet("{id}", Name = "GetUsuarioById")]
         [ProducesResponseType(404)]
         [ProducesResponseType(401)]
         [ProducesResponseType(200)]
@@ -122,9 +125,34 @@ namespace backendAPIPorzione.Controllers
         [Route("Autenticar")]
         [ProducesResponseType(401)]
         [ProducesResponseType(200)]
+        //public async Task<IActionResult> Autenticar([FromBody] UsuarioDto usuarioDto)
         public async Task<IActionResult> Autenticar([FromBody] AutorizacionRequest autorizacion)
         {
-            var resultadoAutorizacion = await _autorizacionService.DevolverToken(autorizacion);
+            //var resultadoAutorizacion = await _autorizacionService.DevolverToken(autorizacion);
+
+            //if (resultadoAutorizacion is null)
+            //{
+            //    return Unauthorized();
+            //}
+
+            //return Ok(resultadoAutorizacion);
+
+
+            //Usuario usuario = _mapper.Map<Usuario>(usuarioDto);
+
+            //usuario = await _claveHasher.Register(usuario, usuarioDto.Clave);
+
+            //if (usuario is null)
+            //    return BadRequest();
+
+            //return Ok(usuario);
+
+            Usuario usuario = await _claveHasher.Login(autorizacion.Correo, autorizacion.Clave);
+
+            if (usuario is null)
+                return BadRequest();
+
+            AutorizacionResponse resultadoAutorizacion = await _autorizacionService.DevolverToken(autorizacion);
 
             if (resultadoAutorizacion is null)
             {
@@ -132,6 +160,21 @@ namespace backendAPIPorzione.Controllers
             }
 
             return Ok(resultadoAutorizacion);
+
+        }
+
+        [HttpPost]
+        [Route("Registrar")]
+        public async Task<IActionResult> RegistrarUsuario([FromBody] UsuarioDto usuarioDto)
+        {
+            Usuario usuario = _mapper.Map<Usuario>(usuarioDto);
+
+            usuario = await _claveHasher.Register(usuario, usuarioDto.Clave);
+
+            if (usuario is null)
+                return BadRequest();
+
+            return CreatedAtRoute("GetUsuarioById", new { usuario.Id }, usuario);
         }
 
 

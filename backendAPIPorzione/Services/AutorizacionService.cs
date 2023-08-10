@@ -73,7 +73,7 @@ namespace backendAPIPorzione.Services
             if (usuarioEncontrado is null)
             {
                 return await Task.FromResult<AutorizacionResponse>(null);
-            }
+            } 
 
             string tokenCreado = GenerarToken(usuarioEncontrado);
 

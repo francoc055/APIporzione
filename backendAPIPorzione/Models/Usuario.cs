@@ -15,5 +15,9 @@ public partial class Usuario
 
     public string? Clave { get; set; }
 
+    public byte[]? ClaveHash { get; set; }
+
+    public byte[]? ClaveSalt { get; set; }
+
     public virtual ICollection<Menu> Menus { get; set; } = new List<Menu>();
 }

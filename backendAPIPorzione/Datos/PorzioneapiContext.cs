@@ -24,9 +24,7 @@ public partial class PorzioneapiContext : DbContext
 
     public virtual DbSet<Usuario> Usuarios { get; set; }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Server=localhost; DataBase=porzioneapi; Trusted_Connection=True; TrustServerCertificate=True;");
+
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -75,6 +73,8 @@ public partial class PorzioneapiContext : DbContext
             entity.Property(e => e.Clave)
                 .HasMaxLength(30)
                 .IsUnicode(false);
+            entity.Property(e => e.ClaveHash).HasMaxLength(64);
+            entity.Property(e => e.ClaveSalt).HasMaxLength(64);
             entity.Property(e => e.Correo)
                 .HasMaxLength(255)
                 .IsUnicode(false);
